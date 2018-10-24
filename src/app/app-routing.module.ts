@@ -14,7 +14,8 @@ const routes: Routes = [
   {
     path: 'list',
     loadChildren: './list/list.module#ListPageModule'
-  }
+  },
+  { path: 'calculdoraI', loadChildren: './calculdora-i/calculdora-i.module#CalculdoraIPageModule' }
 ];
 
 @NgModule({

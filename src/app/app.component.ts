@@ -16,11 +16,17 @@ export class AppComponent {
       icon: 'home'
     },
     {
+      title: 'Calculadora',
+      url: '/calculadora',
+      icon: 'calculator'
+      },
+    {
       title: 'List',
       url: '/list',
       icon: 'list'
     }
   ];
+
 
   constructor(
     private platform: Platform,

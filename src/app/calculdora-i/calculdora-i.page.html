@@ -1,0 +1,290 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot+"start"">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>"
+    <ion-title>
+      calculdoraI
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+<!--
+  <tr>
+    <td colspan="4"><input [(ngModel)]="calculadora.completo" placeholder="Ingrese número"/></td>
+  </tr>
+  <tr>
+    <td> <button type="button" name="uno" (click)="setNumero(1)"> 1 </button> </td>
+    <td> <button type="button" name="uno" (click)="setNumero(2)"> 2 </button> </td>
+    <td> <button type="button" name="uno" (click)="setNumero(3)"> 3 </button> </td>
+    <td> <button type="button" name="suma"> + </button> </td>
+  </tr>
+  <tr>
+    <td> <button type="button" name="uno" (click)="setNumero(4)"> 4 </button> </td>
+    <td> <button type="button" name="uno" (click)="setNumero(5)"> 5 </button> </td>
+    <td> <button type="button" name="uno" (click)="setNumero(6)"> 6 </button> </td>
+    <td> <button type="button" name="resta"> - </button> </td>
+  </tr>
+  <tr>
+    <td> <button type="button" name="uno" (click)="setNumero(7)"> 7 </button> </td>
+    <td> <button type="button" name="uno" (click)="setNumero(8)"> 8 </button> </td>
+    <td> <button type="button" name="uno" (click)="setNumero(9)"> 9 </button> </td>
+    <td> <button type="button" name="multiplicacion" > * </button> </td>
+  </tr>
+  <tr>
+    <td colspan="3"> <button type="button" name="uno" style="width: 100%"> 0 </button> </td>
+    <td> <button type="button" name="uno"> / </button> </td>
+  </tr>
+-->
+
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { Calculadora } from '../models/calculadora';
+import { Resultado } from '../models/resultado';
+import { ResultadoService } from '../resultado.service';
+import { ResultadosComponent } from '../resultados/resultados.component';
+
+@Component({
+  providers:[ResultadosComponent],
+  selector: 'app-calculadora',
+  templateUrl: './calculadora.component.html',
+  styleUrls: ['./calculadora.component.css']
+})
+export class CalculadoraComponent implements OnInit {
+  @Input() calculadora: Calculadora = {
+    numero: 0,
+    completo: "",
+    resultado: 0,
+    operacion: "",
+  };
+
+  constructor(private resultadosComponent: ResultadosComponent, private resultadosService: ResultadoService) { }
+
+  ngOnInit() {
+  }
+
+  setClearAll() {
+    this.calculadora.resultado = 0;
+    this.calculadora.operacion = "";
+    this.calculadora.numero = 0;
+    this.calculadora.completo = "";
+  }
+
+  setClear() {
+    this.calculadora.numero = 0;
+    this.calculadora.completo = "";
+  }
+
+  setPunto(value: string) {
+    if (!this.calculadora.completo.includes(value)) {
+      this.calculadora.completo += value;
+    }
+  }
+
+  setNumero(value: number): void {
+    if (this.calculadora.operacion == "" && this.calculadora.resultado != 0) {
+      this.setClearAll();
+    } else {
+      this.calculadora.completo += value;
+      this.calculadora.numero = parseFloat(this.calculadora.completo);
+    }
+  }
+
+  setOperacion(value: string) {
+    if (value == "-" &&
+      (this.calculadora.completo == "" || this.calculadora.completo == "-") &&
+      !(this.calculadora.operacion == "" && this.calculadora.resultado != 0)) {
+      this.calculadora.completo = value;
+    } else {
+      if (this.calculadora.completo != "" && this.calculadora.completo != "-") {
+        if (this.calculadora.operacion != "") {
+          this.doOperacion();
+        } else {
+          this.calculadora.resultado = parseFloat(this.calculadora.completo);
+          this.calculadora.numero = parseFloat(this.calculadora.completo);
+        }
+      }
+      this.calculadora.operacion = value;
+      this.calculadora.completo = "";
+    }
+  }
+
+  doOperacion() {
+    if (this.calculadora.completo != "" && this.calculadora.completo != "-") {
+
+      switch (this.calculadora.operacion) {
+        case '+':
+          this.hagaSuma();
+          this.calculadora.resultado = this.calculadora.numero;
+          this.calculadora.operacion = "";
+          this.calculadora.completo = "";
+                break
+        case '-':
+          this.hagaResta();
+          this.calculadora.resultado = this.calculadora.numero;
+          this.calculadora.operacion = "";
+          this.calculadora.completo = "";
+                break
+        case '*':
+          this.hagaMultiplicacion();
+          this.calculadora.resultado = this.calculadora.numero;
+          this.calculadora.operacion = "";
+          this.calculadora.completo = "";
+                break
+        case '/':
+          this.h…
+INSTALACION
+Microsoft Windows [Versión 10.0.17134.285]
+(c) 2018 Microsoft Corporation. Todos los derechos reservados.
+
+C:\Users\Pablo>npm install -g ionic
+C:\Users\Pablo\AppData\Roaming\npm\ionic -> C:\Users\Pablo\AppData\Roaming\npm\node_modules\ionic\bin\ionic
++ ionic@4.2.1
+added 242 packages from 151 contributors in 64.913s
+
+CREAR PROYECTO
+
+C:\Users\Pablo>ionic start myApp tabs
+[INFO] You are about to create an Ionic 3 app. Would you like to try Ionic 4 (beta)?
+
+Ionic 4 uses the power of the modern Web and embraces the Angular CLI and Angular Router ....
+
+[1]: https://blog.ionicframework.com/announcing-ionic-4-beta/
+[2]: https://beta.ionicframework.com/docs/
+
+? Try Ionic 4? No
+√ Downloading and extracting tabs starter - done!
+? Integrate your new app with Cordova to target native iOS and Android? Yes
+────────────────────────────────────────────────────────────
+
+> npm i
+npm WARN deprecated browserslist@2.11.3: Browserslist 2 could fail on reading Browserslist >3.0 config used in other tools.
+npm WARN deprecated hoek@2.16.3: The major version is no longer supported. Please update to 4.x or newer
+Downloading binary from https://github.com/sass/node-sass/releases/download/v4.9.0/win32-x64-57_binding.node
+Binary saved to C:\Users\Pablo\myApp\node_modules\node-sass\vendor\win32-x64-57\binding.node
+Caching binary to C:\Users\Pablo\AppData\Roaming\npm-cache\node-sass\4.9.0\win32-x64-57_binding.node
+
+> uglifyjs-webpack-plugin@0.4.6 postinstall C:\Users\Pablo\myApp\node_modules\uglifyjs-webpack-plugin
+
+
+C:\PROJECTS\ionic>ionic start myApp3 sidemenu
+[1]: https://blog.ionicframework.com/announcing-ionic-4-beta/
+[2]: https://beta.ionicframework.com/docs/
+
+? Try Ionic 4? Yes
+√ Downloading and extracting sidemenu starter - done!
+? Integrate your new app with Cordova to target native iOS and Android? Yes
+
+────────────────────────────────────────────────────────────
+
+> npm i
+
+> node-sass@4.9.4 install C:\PROJECTS\ionic\myApp3\node_modules\node-sass
+> node scripts/install.js
+
+Cached binary found at C:\Users\Pablo\AppData\Roaming\npm-cache\node-sass\4.9.4\win32-x64-57_binding.node
+
+> circular-json@0.5.7 postinstall C:\PROJECTS\ionic\myApp3\node_modules\circular-json
+
+
+────────────────────────────────────────────────────────────
+
+? Install the free Ionic Pro SDK and connect your app? No
+[INFO] Next Steps:
+
+- Go to your newly created project: cd .\myApp3
+- Get Ionic DevApp for easy device testing: https://bit.ly/ionic-dev-app
+
+C:\PROJECTS\ionic>cd myApp3
+
+C:\PROJECTS\ionic\myApp3>ionic g
+? What would you like to generate? page
+? Name/path of page: calculadora
+> ng generate page calculadora
+CREATE src/app/calculadora/calculadora.module.ts (568 bytes)
+CREATE src/app/calculadora/calculadora.page.html (138 bytes)
+CREATE src/app/calculadora/calculadora.page.spec.ts (726 bytes)
+CREATE src/app/calculadora/calculadora.page.ts (276 bytes)
+CREATE src/app/calculadora/calculadora.page.scss (0 bytes)
+UPDATE src/app/app-routing.module.ts (574 bytes)
+[OK] Generated page!
+
+VSL>C:\PROJECTS\ionic\myApp3\src\app\app.component.ts
+
+{
+title: 'Calculadora',…
+<ion-grid>
+      <ion-row>
+        <ion-col size="10" >
+          <ion-item>
+            <ion-input [(ngModel)]="calculadora.numero" style="text-align:right" class="bg-0" placeholder="Ingrese número"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="2">
+          <ion-button expand="full" color="default" fill="outline" (click)="setNumero(1)"> 1 </ion-button>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button expand="full" color="default" fill="outline" (click)="setNumero(2)"> 2 </ion-button>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button expand="full" color="default" fill="outline" (click)="setNumero(3)"> 3 </ion-button>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button expand="full" color="default" fill="outline" (click)="setClearAll()"> CE </ion-button>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button expand="full" color="default" fill="outline" (click)="setClear()"> C </ion-button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="2">
+          <ion-button expand="full" color="default" fill="outline" (click)="setNumero(4)"> 4 </ion-button>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button expand="full" color="default" fill="outline" (click)="setNumero(5)"> 5 </ion-button>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button expand="full" color="default" fill="outline" (click)="setNumero(6)"> 6 </ion-button>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button expand="full" color="default" fill="outline" (click)="setOperacion('*')"> * </ion-button>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button expand="full" color="default" fill="outline" (click)="setOperacion('/')"> / </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="2">
+          <ion-button expand="full" color="default" fill="outline" (click)="setNumero(7)"> 7 </ion-button>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button expand="full" color="default" fill="outline" (click)="setNumero(8)"> 8 </ion-button>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button expand="full" color="default" fill="outline" (click)="setNumero(9)"> 9 </ion-button>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button expand="full" color="default" fill="outline" (click)="setOperacion('+')"> + </ion-button>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button expand="full" color="default" fill="outline" (click)="setOperacion('-')"> - </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-button expand="full" color="default" fill="outline" (click)="setNumero(0)"> 0 </ion-button>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button expand="full" color="default" fill="outline" (click)="doOperacion()"> = </ion-button>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button expand="full" color="default" fill="outline" (click)="setPunto('.')"> . </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+</ion-content>
